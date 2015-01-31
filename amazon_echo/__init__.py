@@ -9,27 +9,41 @@ class Echo(object):
     def __init__(self, username, password):
         self.username = username
         self.password = password
-        self.session = requests.Session()
-        self.session.headers.update({'User-Agent':'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13'})
+        self.last_todo = ''
+        self.first_run = True
         self.login()
 
     def get(self, url):
-        print "GET"
         self.session.headers.update({'Referer':None})
-        request = self.session.get(url)
 
-        # Todo - Error Check this
-        return request.text
+        try:
+            request = self.session.get(url)
+            if request.status_code == 200:
+                return request.text
+        except:
+            pass
+
+        self.login()
+        return False
 
     def post(self, url, data={}):
-        print "POST"
         self.session.headers.update({'Referer':BASE_URL})
-        request = self.session.post(url, data=data)
+        try:
+            request = self.session.post(url, data=data)
+            if request.status_code == 200:
+                return True
+            print request.status_code
+            print type(request.status_code)
+        except:
+            pass
 
-        # Todo - Error Check this
-        return True
+        self.login()
+        return False
 
     def login(self):
+        self.session = requests.Session()
+        self.session.headers.update({'User-Agent':'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13'})
+
         login_page = self.get(BASE_URL)
 
         soup = BeautifulSoup(login_page)
@@ -50,4 +64,17 @@ class Echo(object):
         self.post(action, data=data)
 
     def get_latest_todo(self):
-        return json.loads(self.get(TODO_URL))['values'][0]['text']
+        if not self.first_run:
+            try:
+                todo = json.loads(self.get(TODO_URL))['values'][0]['text']
+            except:
+                self.login()
+                return None
+
+            if self.last_todo != todo:
+                self.last_todo = todo
+                return todo
+        else:
+            self.first_run = False
+
+        return None
