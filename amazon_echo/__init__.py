@@ -10,7 +10,6 @@ class Echo(object):
         self.username = username
         self.password = password
         self.last_todo_id = ''
-        self.first_run = True
         self.login()
 
     def get(self, url):
@@ -62,8 +61,9 @@ class Echo(object):
         data['ue_back'] = 1
 
         self.post(action, data=data)
+        self.get_latest_todo(startup=True)
 
-    def get_latest_todo(self):
+    def get_latest_todo(self, startup=False):
         try:
             todo = json.loads(self.get(TODO_URL))['values'][0]['text']
             todo_id = json.loads(self.get(TODO_URL))['values'][0]['itemId']
@@ -71,12 +71,11 @@ class Echo(object):
             self.login()
             return None
 
-        if not self.first_run:
+        if not startup:
             if self.last_todo_id != todo_id:
                 self.last_todo_id = todo_id
                 return todo
         else:
             self.last_todo_id = todo_id
-            self.first_run = False
 
         return None
