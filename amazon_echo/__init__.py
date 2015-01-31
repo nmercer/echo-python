@@ -64,17 +64,18 @@ class Echo(object):
         self.post(action, data=data)
 
     def get_latest_todo(self):
-        if not self.first_run:
-            try:
-                todo = json.loads(self.get(TODO_URL))['values'][0]['text']
-            except:
-                self.login()
-                return None
+        try:
+            todo = json.loads(self.get(TODO_URL))['values'][0]['text']
+        except:
+            self.login()
+            return None
 
+        if not self.first_run:
             if self.last_todo != todo:
                 self.last_todo = todo
                 return todo
         else:
+            self.last_todo = todo
             self.first_run = False
 
         return None
