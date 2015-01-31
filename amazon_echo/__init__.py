@@ -9,7 +9,7 @@ class Echo(object):
     def __init__(self, username, password):
         self.username = username
         self.password = password
-        self.last_todo = ''
+        self.last_todo_id = ''
         self.first_run = True
         self.login()
 
@@ -66,16 +66,17 @@ class Echo(object):
     def get_latest_todo(self):
         try:
             todo = json.loads(self.get(TODO_URL))['values'][0]['text']
+            todo_id = json.loads(self.get(TODO_URL))['values'][0]['itemId']
         except:
             self.login()
             return None
 
         if not self.first_run:
-            if self.last_todo != todo:
-                self.last_todo = todo
+            if self.last_todo_id != todo_id:
+                self.last_todo_id = todo_id
                 return todo
         else:
-            self.last_todo = todo
+            self.last_todo_id = todo_id
             self.first_run = False
 
         return None
