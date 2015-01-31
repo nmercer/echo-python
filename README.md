@@ -1,3 +1,8 @@
 # echo-python
+```py
+from amazon_echo import Echo
 
-Stay Tuned - My Echo finally shipped!
+echo = Echo('username', 'password')
+
+print echo.get_latest_todo()
+```
