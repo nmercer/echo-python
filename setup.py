@@ -15,6 +15,9 @@ setup(
     packages = find_packages(),
     license='MIT',
 
-    install_requires = [],
+    install_requires = [
+        "beautifulsoup4",
+        "requests"
+    ],
     include_package_data = True,
 )
