@@ -22,7 +22,7 @@ class Echo(object):
         except:
             pass
 
-        self.login()
+        # self.login()
         return False
 
     def post(self, url, data={}):
@@ -36,7 +36,7 @@ class Echo(object):
         except:
             pass
 
-        self.login()
+        # self.login()
         return False
 
     def login(self):
@@ -68,7 +68,7 @@ class Echo(object):
             todo = json.loads(self.get(TODO_URL))['values'][0]['text']
             todo_id = json.loads(self.get(TODO_URL))['values'][0]['itemId']
         except:
-            self.login()
+            # self.login()
             return None
 
         if not startup:
