@@ -65,8 +65,9 @@ class Echo(object):
 
     def get_latest_todo(self, startup=False):
         try:
-            todo = json.loads(self.get(TODO_URL))['values'][0]['text']
-            todo_id = json.loads(self.get(TODO_URL))['values'][0]['itemId']
+            data = json.loads(self.get(TODO_URL))['values'][0]
+            todo = data['text']
+            todo_id = data['itemId']
         except:
             # self.login()
             return None
