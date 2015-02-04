@@ -14,7 +14,7 @@ print echo.get_latest_todo()
 print echo.get_latest_shopping()
 ```
 
-The todo list seems to listen to longer strings of commands more accuratly. Like "Turn off the lights and turn the heat down".
+The todo list seems to listen to longer strings of commands more accurately. Like "Turn off the lights and turn the heat down".
 
 The shopping list seems to listen to short command strings better. Like "shuffle" or "turn down".
 
