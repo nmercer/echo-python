@@ -4,12 +4,14 @@ import json
 
 BASE_URL = 'https://pitangui.amazon.com'
 TODO_URL = 'https://pitangui.amazon.com/api/todos?type=TASK&size=1'
+SHOPPING_URL = 'https://pitangui.amazon.com/api/todos?type=SHOPPING_ITEM&size=1'
 
 class Echo(object):
     def __init__(self, username, password):
         self.username = username
         self.password = password
         self.last_todo_id = ''
+        self.last_shopping_id = ''
         self.login()
 
     def get(self, url):
@@ -62,6 +64,7 @@ class Echo(object):
 
         self.post(action, data=data)
         self.get_latest_todo(startup=True)
+        self.get_latest_shopping(startup=True)
 
     def get_latest_todo(self, startup=False):
         try:
@@ -78,5 +81,23 @@ class Echo(object):
                 return todo
         else:
             self.last_todo_id = todo_id
+
+        return None
+
+    def get_latest_shopping(self, startup=False):
+        try:
+            data = json.loads(self.get(SHOPPING_URL))['values'][0]
+            shopping = data['text']
+            shopping_id = data['itemId']
+        except:
+            # self.login()
+            return None
+
+        if not startup:
+            if self.last_shopping_id != shopping_id:
+                self.last_shopping_id = shopping_id
+                return shopping
+        else:
+            self.last_shopping_id = shopping_id
 
         return None
