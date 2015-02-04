@@ -3,17 +3,23 @@
 Amazon Echo Todo List API For Python
 
 ### Basics
-This works off adding things to your todo list. It returns None if you have not said anything new. It returns the string of what you said if you did say something new, like "Turn Off Lights".
+This works off adding things to your todo list or shopping list. It returns None if you have not said anything new. It returns the string of what you said if you did say something new, like "Turn Off Lights".
+
 ```py
 from amazon_echo import Echo
 
 echo = Echo('username', 'password')
 
 print echo.get_latest_todo()
+print echo.get_latest_shopping()
 ```
 
+The todo list seems to listen to longer strings of commands more accuratly. Like "Turn off the lights and turn the heat down".
+
+The shopping list seems to listen to short command strings better. Like "shuffle" or "turn down".
+
 ### Requires
-  - bs4 - (BeautifulSoup)
+  - beautifulsoup4
 
   - requests
 
