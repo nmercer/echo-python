@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='amazon-echo',
-    version='0.3',
+    version='0.5',
 
     description='Amazon Echo Python API',
     url='https://github.com/nmercer/echo-python',
